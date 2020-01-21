@@ -1,22 +1,70 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  </head>
-  <body>
-    <div id="app">
-      <h3>{{message}}</h3>
-    </div>
-
-    <script type="text/javascript">
-      let app = new Vue({
-        el: "#app",
-        data:{
-          message: "Hello world!"
-        }
-      })
-    </script>
-  </body>
+    <head>
+        <meta charset="utf-8"></meta>
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+        <link rel="stylesheet" href="./css/style.css">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="./js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body class="bg-light" style="background: url(https://cs8.pikabu.ru/post_img/big/2016/08/02/10/1470157373114517155.jpg);">
+        <div id="app">
+            <header class="mb-3 shadow-sm bg-white">
+                <div class="container header-h1 p-3">
+                    <h1>{{sitename}}</h1>
+                </div>
+            </header>
+            <main>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <figure>
+                                <img class="img-fluid img-thumbnail" v-bind:src="product.image" style="background: rgba(255, 255, 255, 0.9);">
+                            </figure>
+                        </div>
+                        <div class="col-lg-8" style="background: rgba(255, 255, 255, 0.9);">
+                            <h1 class="text-muted" v-text="product.title"></h1>
+                            <p v-html="product.description"><p>
+                            <p>Автор: {{product.author}}</p>
+                            <p>Издательство: {{product.publishing}}<p>
+                            <p>Год: {{product.year}}</p>
+                            <p>Количество страниц: {{product.pages}}</p>
+                            <p>Стоимость: {{product.price | formatPrice}}</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+        <script>
+            let webStore = new Vue({
+                el: '#app',
+                data: {
+                    sitename: 'Магазин 404 - найдётся всё для IT-шников!',
+                    product:{
+                        id: 1,
+                        title: 'Как пасти котов. Наставление для программистов, руководящих другими программистами',
+                        description: '<em>«Как пасти котов»</em> — это книга о лидерстве и руководстве, о том, как первое совмещать со вторым.',
+                        author: 'Рейнвотер Дж. Ханк',
+                        publishing: 'Питер',
+                        year:2016,
+                        pages: 256,
+                        price: 1,
+                        image: './img/bolt_pistol.png'
+                    }
+                },
+                filters: {
+                    formatPrice: function(val){
+                        if(!parseInt(val)) return '';
+                        let arr = val.toString().split("");
+                        let index = 3;
+                        while(arr.length > index){
+                            arr.splice(arr.length - index, 0, " ");
+                            index += 4;
+                        }
+                        return arr.join("") + ' ' + String.fromCharCode(8381);
+                    }
+                }
+            });
+        </script>
+    </body>
 </html>
